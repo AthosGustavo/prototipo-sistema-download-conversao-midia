@@ -3,7 +3,7 @@
 ## Visão Geral
 
 ### Nome do Sistema
-**MidiaFlow**
+**MidiaConverte**
 
 ### Objetivo
 Baixar vídeos das redes sociais (**Instagram**, **YouTube**, **Twitter** e **TikTok**) através de computador ou dispositivo móvel, oferecendo opções de formato e qualidade de saída.
