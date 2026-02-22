@@ -14,10 +14,10 @@ Permitir que usuários baixem vídeos de redes sociais em formatos e qualidades 
 ---
 
 ### Plataformas Suportadas
-- ✅ **YouTube**
-- ✅ **TikTok**
-- ✅ **Twitter/X**
-- ✅ **Instagram**
+-  **YouTube**
+-  **TikTok**
+-  **Twitter/X**
+-  **Instagram**
 
 ### Formatos de Saída
 
