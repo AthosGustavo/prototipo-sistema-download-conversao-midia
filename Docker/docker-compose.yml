@@ -6,7 +6,7 @@ services:
       # Esse trecho é combinado com o COPY do dockerfile = ..server/target/*.jar
       context: ../server
       dockerfile: ../Docker/eureka-Dockerfile
-    container_name: midia-converte
+    container_name: midia-converte-eureka
     ports:
       - "8081:8761"
     environment:
@@ -14,6 +14,36 @@ services:
     networks:
       - midia-converte
     restart: unless-stopped
+
+  gateway:
+    build:
+      context: ../gateway
+      dockerfile: ../Docker/gateway-Dockerfile
+    container_name: midia-converte-gateway
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - midia-converte
+    restart: unless-stopped
+    depends_on:
+      - eureka-server
+
+  orquestrador:
+    build:
+      context: ../orquestrador
+      dockerfile: ../Docker/orquestrador-Dockerfile
+    container_name: midia-converte-orquestrador
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - midia-converte
+    restart: unless-stopped
+    depends_on:
+      - eureka-server
   
 networks:
   midia-converte:
