@@ -181,4 +181,91 @@ CREATE TABLE processing_jobs (
 
 </details>
 
+## Backlog
 
+<details>
+<summary><strong>📋 Backlog: Implementação de Healthcheck nos Containers Docker</strong></summary>
+
+---
+
+## 📝 História de Usuário
+
+**Como:** Desenvolvedor/DevOps  
+**Eu quero:** Implementar healthchecks nos containers Docker  
+**Para que:** O sistema possa detectar automaticamente falhas e dependências entre serviços
+
+---
+
+## 🔍 Contexto
+
+Atualmente, os containers Docker são iniciados sem verificação de saúde (healthcheck). Isso significa que:
+
+- ❌ Docker não sabe se o serviço está realmente funcionando
+- ❌ Serviços dependentes iniciam antes das dependências estarem prontas
+- ❌ Containers com falhas aparecem como "Up" mesmo não respondendo
+- ❌ Não há reinicialização automática em caso de travamento do serviço
+
+A implementação de healthchecks permitirá:
+
+- ✅ Detectar automaticamente quando um serviço está indisponível
+- ✅ Aguardar dependências estarem saudáveis antes de iniciar serviços dependentes
+- ✅ Reiniciar automaticamente containers com falhas
+- ✅ Melhor observabilidade do estado dos serviços
+
+---
+
+## ✅ Critérios de Aceitação
+
+### **1. Healthcheck no Eureka Server**
+- [ ] Dockerfile do Eureka contém `HEALTHCHECK` verificando `/actuator/health`
+- [ ] Intervalo de verificação: 30 segundos
+- [ ] Timeout: 10 segundos
+- [ ] Período de inicialização: 90 segundos
+- [ ] Retries: 5 tentativas
+
+### **2. Healthcheck no API Gateway**
+- [ ] Dockerfile do Gateway contém `HEALTHCHECK` verificando `/actuator/health`
+- [ ] Intervalo de verificação: 30 segundos
+- [ ] Timeout: 10 segundos
+- [ ] Período de inicialização: 60 segundos
+- [ ] Retries: 3 tentativas
+
+### **3. Healthcheck no Orchestrator**
+- [ ] Dockerfile do Orchestrator contém `HEALTHCHECK` verificando `/actuator/health`
+- [ ] Intervalo de verificação: 30 segundos
+- [ ] Timeout: 10 segundos
+- [ ] Período de inicialização: 60 segundos
+- [ ] Retries: 3 tentativas
+
+### **4. Dependências no Docker Compose**
+- [ ] Gateway aguarda Eureka ficar `healthy` antes de iniciar
+- [ ] Orchestrator aguarda Eureka ficar `healthy` antes de iniciar
+- [ ] `depends_on` usa `condition: service_healthy`
+
+### **5. Configuração do Actuator**
+- [ ] Dependência `spring-boot-starter-actuator` adicionada em todos os `pom.xml`
+- [ ] Endpoint `/actuator/health` exposto em todos os `application.properties`
+- [ ] Endpoint `/actuator/health` retorna `{"status":"UP"}` quando serviço está saudável
+
+### **6. Testes**
+- [ ] `docker-compose ps` mostra status `(healthy)` para todos os containers
+- [ ] `curl http://localhost:8081/actuator/health` retorna status 200
+- [ ] `curl http://localhost:8080/actuator/health` retorna status 200
+- [ ] `curl http://localhost:8085/actuator/health` retorna status 200
+- [ ] Logs mostram que Gateway/Orchestrator aguardaram Eureka ficar saudável
+
+---
+
+## 🛠️ Tarefas Técnicas
+
+### **Tarefa 1: Adicionar Actuator nos pom.xml**
+
+Adicionar dependência do Spring Boot Actuator em todos os módulos:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+</details>
