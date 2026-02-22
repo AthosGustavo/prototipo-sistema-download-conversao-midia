@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build:
+      # Esse trecho é combinado com o COPY do dockerfile = ..server/target/*.jar
+      context: ../server
+      dockerfile: ../Docker/eureka-Dockerfile
+    container_name: midia-converte
+    ports:
+      - "8081:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - midia-converte
+    restart: unless-stopped
+  
+networks:
+  midia-converte:
+    driver: bridge
+ 
+
+
