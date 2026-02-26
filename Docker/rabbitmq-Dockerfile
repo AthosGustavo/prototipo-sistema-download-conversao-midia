@@ -1,0 +1,19 @@
+FROM rabbitmq:3-management AS builder
+
+WORKDIR /tmp
+COPY rabbitmq.conf /tmp/config/
+
+FROM rabbitmq:3-management
+
+RUN rabbitmq-plugins enable --offline \
+    rabbitmq_management
+
+RUN mkdir -p /var/lib/rabbitmq && \
+    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /etc/rabbitmq
+
+EXPOSE 5672   
+EXPOSE 15672
+
+VOLUME /var/lib/rabbitmq
+
+CMD ["rabbitmq-server"]

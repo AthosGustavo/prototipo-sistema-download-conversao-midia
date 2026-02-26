@@ -44,6 +44,27 @@ services:
     restart: unless-stopped
     depends_on:
       - eureka-server
+
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: ../Docker/rabbitmq-Dockerfile
+    container_name: midia-converte-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq     # Usando volume para persistência
+    networks:
+      - midia-converte
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:    # Declarando o volume para persistência
+    driver: local   # Driver padrão do Docker para volumes
   
 networks:
   midia-converte:
