@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: orquestrador-sv
+
+  rabbitmq:
+    host: localhost   # Mudado de 'rabbitmq' para 'localhost'
+    port: 5672
+    username: athos
+    password: 123
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Mudado para localhost
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    hostname: localhost # Mudado para localhost
+
+logging:
+  level:
+    root: INFO
+    com.netflix.eureka: DEBUG
+    br.com.midiaconverte: DEBUG

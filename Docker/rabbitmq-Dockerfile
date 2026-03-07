@@ -1,7 +1,6 @@
 FROM rabbitmq:3-management AS builder
 
 WORKDIR /tmp
-COPY rabbitmq.conf /tmp/config/
 
 FROM rabbitmq:3-management
 

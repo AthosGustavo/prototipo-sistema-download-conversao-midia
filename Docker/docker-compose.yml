@@ -9,8 +9,6 @@ services:
     container_name: midia-converte-eureka
     ports:
       - "8081:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
     networks:
       - midia-converte
     restart: unless-stopped
@@ -22,8 +20,6 @@ services:
     container_name: midia-converte-gateway
     ports:
       - "8082:8082"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
     networks:
       - midia-converte
     restart: unless-stopped
@@ -37,8 +33,19 @@ services:
     container_name: midia-converte-orquestrador
     ports:
       - "8083:8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - midia-converte
+    restart: unless-stopped
+    depends_on:
+      - eureka-server
+
+  download:
+    build:
+      context: ../download
+      dockerfile: ../Docker/download-Dockerfile
+    container_name: midia-converte-download
+    ports:
+      - "8084:8084"
     networks:
       - midia-converte
     restart: unless-stopped

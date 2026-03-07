@@ -10,6 +10,7 @@ services=(
     "server"
     "gateway"
     "orquestrador"
+    "download"
 )
 
 
@@ -29,14 +30,14 @@ for service in "${services[@]}"; do
         exit 1
     fi
 
-    echo -e "JAR do serviço $[service] gerado"
+    echo -e "======== JAR do serviço ${service} gerado. ========"
     
     # Volta para o diretório raiz
     cd ..
     
 done
 
-cd docker
+cd Docker
 docker-compose build
 docker-compose up
 cd ..
