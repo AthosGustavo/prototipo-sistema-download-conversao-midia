@@ -1,32 +1,22 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: orquestrador-sv
 
-  rabbitmq: # Movidas especificamente para dentro do spring
-    host: rabbitmq
-    port: 5672
-    username: athos
-    password: 123
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
 
 server:
-  port: 8083
-
-
+  port: ${PORT}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: false
-    hostname: orquestrador
-
-logging:
-  level:
-    root: INFO
-    com.netflix.eureka: DEBUG
-    br.com.midiaconverte: DEBUG
+    hostname: ${APP_HOSTNAME}

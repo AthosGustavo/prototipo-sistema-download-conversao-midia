@@ -9,6 +9,8 @@ services:
     container_name: midia-converte-eureka
     ports:
       - "8081:8761"
+    env_file:
+      - ../variaveis/compose/.env.eureka.compose
     networks:
       - midia-converte
     restart: unless-stopped
@@ -20,6 +22,8 @@ services:
     container_name: midia-converte-gateway
     ports:
       - "8082:8082"
+    env_file:
+      - ../variaveis/compose/.env.gateway.compose
     networks:
       - midia-converte
     restart: unless-stopped
@@ -33,6 +37,8 @@ services:
     container_name: midia-converte-orquestrador
     ports:
       - "8083:8083"
+    env_file:
+      - ../variaveis/compose/.env.orquestrador.compose
     networks:
       - midia-converte
     restart: unless-stopped
@@ -46,6 +52,8 @@ services:
     container_name: midia-converte-download
     ports:
       - "8084:8084"
+    env_file:
+      - ../variaveis/compose/.env.download.compose
     networks:
       - midia-converte
     restart: unless-stopped
@@ -60,9 +68,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    env_file:
+      - ../variaveis/compose/.env.rabbitmq.compose
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq     # Usando volume para persistência
     networks:

@@ -37,7 +37,7 @@ for service in "${services[@]}"; do
     
 done
 
-cd Docker
+cd docker
 docker-compose build
 docker-compose up
 cd ..

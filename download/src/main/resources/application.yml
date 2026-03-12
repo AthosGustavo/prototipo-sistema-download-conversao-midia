@@ -3,23 +3,23 @@ spring:
     name: download-sv
 
   rabbitmq: # Movidas especificamente para dentro do spring, entender porque !
-    host: rabbitmq
-    port: 5672
-    username: athos
-    password: 123
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
 
 server:
-  port: 8084
+  port: ${PORT}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: false
-    hostname: download
+    hostname: ${APP_HOSTNAME}
 
 logging:
   level:

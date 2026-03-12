@@ -1,36 +1,29 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: gateway-sv
   cloud:
     gateway:
-      mvc:
-        discovery:
-          locator:
-            enabled: true
-            lower-case-service-id: true
-        routes:
-          - id: orquestrador-route
-            uri: http://orquestrador:8083
-            predicates:
-              - Path=/orquestrador/**
+      routes:
+        - id: orquestrador-rota
+          uri: lb://ORQUESTRADOR-SV
+          predicates:
+            - Path=/orquestrador-sv/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
 server:
-  port: 8082
+  port: ${PORT}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
   instance:
-    prefer-ip-address: true
-    hostname: gateway
-
-logging:
-  level:
-    root: INFO
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.cloud.gateway.mvc: DEBUG
+    prefer-ip-address: false
+    hostname: ${APP_HOSTNAME}
