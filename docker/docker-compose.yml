@@ -4,7 +4,7 @@ services:
   eureka-server:
     build:
       # Esse trecho é combinado com o COPY do dockerfile = ..server/target/*.jar
-      context: ../server
+      context: ../eureka-server
       dockerfile: ../docker/eureka-Dockerfile
     container_name: midia-converte-eureka
     ports:

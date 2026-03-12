@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>br.com.midiaconverte</groupId>
-    <artifactId>server</artifactId>
+    <artifactId>eureka-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>server</name>
+    <name>eureka-server</name>
     <description>Eureka Server</description>
 
     <properties>

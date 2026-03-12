@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.midiaconverte</groupId>
-	<artifactId>download</artifactId>
+	<artifactId>midia-extrator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>download</name>
-	<description>Serviço de download</description>
+	<name>midia-extrator</name>
+	<description>Serviço de extração de midia a partir da url</description>
 	<url/>
 	<licenses>
 		<license/>

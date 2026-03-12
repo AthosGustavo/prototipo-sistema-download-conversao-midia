@@ -7,10 +7,10 @@ echo "Gerando JARS dos serviços..."
 
 # Array com os serviços
 services=(
-    "server"
+    "eureka-server"
     "gateway"
     "orquestrador"
-    "download"
+    "midia-extrator"
 )
 
 
