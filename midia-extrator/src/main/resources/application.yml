@@ -1,6 +1,6 @@
 spring:
   application:
-    name: download-sv
+    name: midia-extrator-sv
 
   rabbitmq: # Movidas especificamente para dentro do spring, entender porque !
     host: ${RABBITMQ_HOST}

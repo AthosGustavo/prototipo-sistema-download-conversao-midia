@@ -1,4 +1,4 @@
-.env.donwload.compose
+.env.midia-extrator.compose
 
 RABBITMQ_HOST=
 RABBITMQ_PORT=

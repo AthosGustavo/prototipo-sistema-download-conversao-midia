@@ -35,7 +35,7 @@
 
         <dependency>
             <groupId>br.com.midiaconverte</groupId>
-            <artifactId>rabbitmq</artifactId>
+            <artifactId>mdc-mensageria</artifactId>
             <version>1.0.0</version>
         </dependency>
 
