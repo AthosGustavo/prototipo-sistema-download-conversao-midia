@@ -2,4 +2,4 @@
 /server/.idea
 /gateway/.idea
 /orquestrador/.idea
-variaveis/
+.env*
