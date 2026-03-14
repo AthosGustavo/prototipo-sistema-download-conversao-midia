@@ -6,26 +6,26 @@ services:
       # Esse trecho é combinado com o COPY do dockerfile = ..server/target/*.jar
       context: ../eureka-server
       dockerfile: ../docker/java-Dockerfile
-    container_name: midia-converte-eureka
+    container_name: easy-video-eureka
     ports:
       - "8761:8761"
     env_file:
       - ../variaveis/compose/.env.eureka.compose
     networks:
-      - midia-converte
+      - easy-video
     restart: unless-stopped
 
   gateway:
     build:
       context: ../gateway
       dockerfile: ../docker/java-Dockerfile
-    container_name: midia-converte-gateway
+    container_name: easy-video-gateway
     ports:
       - "8082:8082"
     env_file:
       - ../variaveis/compose/.env.gateway.compose
     networks:
-      - midia-converte
+      - easy-video
     restart: unless-stopped
     depends_on:
       eureka-server: 
@@ -35,13 +35,13 @@ services:
     build:
       context: ../orquestrador
       dockerfile: ../docker/java-Dockerfile
-    container_name: midia-converte-orquestrador
+    container_name: easy-video-orquestrador
     ports:
       - "8083:8083"
     env_file:
       - ../variaveis/compose/.env.orquestrador.compose
     networks:
-      - midia-converte
+      - easy-video
     restart: unless-stopped
     depends_on:
       eureka-server: 
@@ -53,13 +53,13 @@ services:
     build:
       context: ../midia-extrator
       dockerfile: ../docker/java-Dockerfile
-    container_name: midia-converte-midia-extrator
+    container_name: easy-video-midia-extrator
     ports:
       - "8084:8084"
     env_file:
       - ../variaveis/compose/.env.midia-extrator.compose
     networks:
-      - midia-converte
+      - easy-video
     restart: unless-stopped
     depends_on:
       eureka-server: 
@@ -71,7 +71,7 @@ services:
     build:
       context: .
       dockerfile: ../docker/rabbitmq-Dockerfile
-    container_name: midia-converte-rabbitmq
+    container_name: easy-video-rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -80,15 +80,34 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq     # Usando volume para persistência
     networks:
-      - midia-converte
+      - easy-video
+    restart: unless-stopped
+
+
+  grafana:
+    build:
+      context: .
+      dockerfile: ../docker/grafana-Dockerfile
+    container_name: easy-video-grafana
+    ports:
+      - "3000:3000"
+    env_file:
+      - ../variaveis/compose/.env.grafana.compose 
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_log:/var/log/grafana
     restart: unless-stopped
 
 volumes:
   rabbitmq_data:    # Declarando o volume para persistência
     driver: local   # Driver padrão do Docker para volumes
+  grafana_data:
+    driver: local
+  grafana_log:
+    driver: local
   
 networks:
-  midia-converte:
+  easy-video:
     driver: bridge
  
 
