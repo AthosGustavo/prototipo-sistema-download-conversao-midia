@@ -8,7 +8,7 @@
 		<version>4.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.midiaconverte</groupId>
+	<groupId>br.com.easyvideo</groupId>
 	<artifactId>midia-extrator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>midia-extrator</name>
@@ -34,8 +34,8 @@
 	<dependencies>
 
         <dependency>
-            <groupId>br.com.midiaconverte</groupId>
-            <artifactId>mdc-mensageria</artifactId>
+            <groupId>br.com.easyvideo</groupId>
+            <artifactId>easyvideo-mensageria</artifactId>
             <version>1.0.0</version>
         </dependency>
 

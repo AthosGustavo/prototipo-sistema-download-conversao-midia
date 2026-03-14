@@ -11,10 +11,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>br.com.midiaconverte</groupId>
-    <artifactId>mdc-mensageria</artifactId>
+    <groupId>br.com.easyvideo</groupId>
+    <artifactId>easyvideo-mensageria</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>mdc-mensageria</name>
+    <name>easyvideo-mensageria</name>
     <description>Biblioteca centralizada de configuracoes do RabbitMQ</description>
 
     <properties>

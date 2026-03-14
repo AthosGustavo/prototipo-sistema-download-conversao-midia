@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>br.com.midiaconverte</groupId>
+    <groupId>br.com.easyvideo</groupId>
     <artifactId>orquestrador</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>orquestrador</name>
@@ -23,8 +23,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>br.com.midiaconverte</groupId>
-            <artifactId>mdc-mensageria</artifactId>
+            <groupId>br.com.easyvideo</groupId>
+            <artifactId>easyvideo-mensageria</artifactId>
             <version>1.0.0</version>
         </dependency>
 
