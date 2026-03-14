@@ -28,7 +28,8 @@ services:
       - midia-converte
     restart: unless-stopped
     depends_on:
-      - eureka-server
+      eureka-server: 
+        condition: service_healthy 
 
   orquestrador:
     build:
@@ -43,7 +44,10 @@ services:
       - midia-converte
     restart: unless-stopped
     depends_on:
-      - eureka-server
+      eureka-server: 
+        condition: service_healthy 
+      rabbitmq: 
+        condition: service_healthy
 
   midia-extrator:
     build:
@@ -58,7 +62,10 @@ services:
       - midia-converte
     restart: unless-stopped
     depends_on:
-      - eureka-server
+      eureka-server: 
+        condition: service_healthy 
+      rabbitmq: 
+        condition: service_healthy
 
   rabbitmq:
     build:

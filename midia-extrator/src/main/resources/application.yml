@@ -21,8 +21,12 @@ eureka:
     prefer-ip-address: false
     hostname: ${APP_HOSTNAME}
 
-logging:
-  level:
-    root: INFO
-    com.netflix.eureka: DEBUG
-    br.com.midiaconverte: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+

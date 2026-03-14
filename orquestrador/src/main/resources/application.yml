@@ -20,3 +20,12 @@ eureka:
   instance:
     prefer-ip-address: false
     hostname: ${APP_HOSTNAME}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
