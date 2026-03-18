@@ -106,9 +106,49 @@ services:
     container_name: easy-video-prometheus
     ports:
       - "9090:9090"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
+      interval: 30s       
+      timeout: 10s        
+      retries: 3          
+      start_period: 40s
     volumes:
       - ../observabilidade/prometheus.yml:/etc/prometheus/prometheus.yml # bindMount - Mapeia arquivo no host para arquivo dentro do container
       - prometheus_data:/prometheus
+    networks:
+      - easy-video
+    restart: unless-stopped
+
+  loki:
+    image: grafana/loki:latest
+    container_name: easy-video-loki
+    ports:
+      - "3100:3100"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/actuator/health"]
+      interval: 30s       
+      timeout: 10s        
+      retries: 3          
+      start_period: 40s
+    volumes:
+      - ../observabilidade/loki/loki-config.yml:/etc/loki/local-config.yml
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml       # Sobrescreve o comando padrão do container para usar o arquivo de configuração personalizado
+    networks:
+      - easy-video
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: easy-video-promtail
+    volumes:
+      # Acesso a logs docker
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+
+      - ../observabilidade/loki/promtail-config.yml:/etc/promtail/config.yml 
+      - promtail_data:/tmp
+    command: -config.file=/etc/promtail/config.yml
     networks:
       - easy-video
     restart: unless-stopped
@@ -121,6 +161,10 @@ volumes:
   grafana_log:
     driver: local
   prometheus_data:
+    driver: local
+  loki_data:
+    driver: local
+  promtail_data:
     driver: local
   
 networks:
