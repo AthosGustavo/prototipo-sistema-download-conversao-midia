@@ -3,7 +3,7 @@ version: '3.8'
 services:
   eureka-server:
     build:
-      # Esse trecho é combinado com o COPY do dockerfile = ..server/target/*.jar
+      # Esse trecho é combinado com o COPY do dockerfile = ..eureka-erver/target/*.jar
       context: ../eureka-server
       dockerfile: ../docker/java-Dockerfile
     container_name: easy-video-eureka
@@ -78,7 +78,7 @@ services:
     env_file:
       - ../variaveis/compose/.env.rabbitmq.compose
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq     # Usando volume para persistência
+      - rabbitmq_data:/var/lib/rabbitmq     # Mapeando diretório do host para volume no container
     networks:
       - easy-video
     restart: unless-stopped
@@ -96,6 +96,21 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - grafana_log:/var/log/grafana
+    networks:
+      - easy-video
+    restart: unless-stopped
+
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: easy-video-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observabilidade/prometheus.yml:/etc/prometheus/prometheus.yml # bindMount - Mapeia arquivo no host para arquivo dentro do container
+      - prometheus_data:/prometheus
+    networks:
+      - easy-video
     restart: unless-stopped
 
 volumes:
@@ -104,6 +119,8 @@ volumes:
   grafana_data:
     driver: local
   grafana_log:
+    driver: local
+  prometheus_data:
     driver: local
   
 networks:

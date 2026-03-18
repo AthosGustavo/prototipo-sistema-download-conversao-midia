@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 10s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Monitorados
+
+  - job_name: 'eureka-server'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['easy-video-eureka:8761']
+
+  - job_name: 'gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['gateway:8082']
+
+  - job_name: 'orquestrador'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['orquestrador:8083']
