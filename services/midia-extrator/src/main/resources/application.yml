@@ -4,12 +4,12 @@ spring:
 
   rabbitmq: # Movidas especificamente para dentro do spring, entender porque !
     host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASSWORD}
+    port: ${RABBITMQ_NODE_PORT}
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASSWORD}
 
 server:
-  port: ${PORT}
+  port: ${MIDIA_EXTRATOR_PORT}
 
 eureka:
   client:
@@ -19,7 +19,7 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: false
-    hostname: ${APP_HOSTNAME}
+    hostname: ${APP_MIDIA_EXTRATOR_HOSTNAME}
 
 management:
   endpoints:

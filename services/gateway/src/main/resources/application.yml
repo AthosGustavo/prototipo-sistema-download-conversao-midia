@@ -16,7 +16,7 @@ spring:
           lower-case-service-id: true
 
 server:
-  port: ${PORT}
+  port: ${GATEWAY_PORT}
 
 eureka:
   client:
@@ -26,7 +26,7 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: false
-    hostname: ${APP_HOSTNAME}
+    hostname: ${APP_GATEWAY_HOSTNAME}
 
 management:
   endpoints:

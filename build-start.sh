@@ -5,6 +5,11 @@ set -e
 
 echo "Gerando JARS dos serviços..."
 
+AMBIENTE=$1
+CAMINHO_ENV=envs/.env.$AMBIENTE
+
+cd services
+
 # Array com os serviços
 services=(
     "eureka-server"
@@ -37,10 +42,10 @@ for service in "${services[@]}"; do
     
 done
 
-cd docker
-docker-compose build
-docker-compose up
 cd ..
+
+docker compose --env-file $CAMINHO_ENV up --build -d
+
 
 echo -e "Container iniciado"
 
