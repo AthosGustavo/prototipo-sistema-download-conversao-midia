@@ -3,3 +3,4 @@
 /gateway/.idea
 /orquestrador/.idea
 /envs/.env*
+/infra/cloud

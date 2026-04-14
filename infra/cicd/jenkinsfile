@@ -1,0 +1,84 @@
+pipeline {
+  agent any
+
+  options {
+    timestamps()
+    disableConcurrentBuilds()
+  }
+
+  environment {
+    ENV_FILE_CRED_ID = 'env-dev'
+    COMPOSE_FILE = 'docker-compose.yml'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build JARs') {
+      steps {
+        sh '''
+          set -e
+
+          services=(
+            "eureka-server"
+            "gateway"
+            "orquestrador"
+            "midia-extrator"
+          )
+
+
+          for service in "${services[@]}"; do
+              
+              # Verifica se diretório existe
+              if [ ! -d "$service" ]; then
+                  echo "ERRO: Diretório da serviço '${service}' não encontrado"
+                  exit 1  
+              fi
+              
+
+              cd "$service"
+              
+              if ! mvn clean package -DskipTests; then
+                  echo "ERRO: Falha ao gerar o JAR do serviço '${service}'"
+                  exit 1
+              fi
+
+              cd ..
+              
+          done
+
+        '''
+      }
+    }
+
+    stage('Deploy (Docker Compose)') {
+      steps {
+        withCredentials([file(credentialsId: "${ENV_FILE}", variable: 'ENVFILE')]) {
+          sh '''
+            set -e
+
+            # Copia o secret file para o workspace 
+            cp "$ENVFILE" .env.runtime
+            chmod 600 .env.runtime
+
+            # Parar stack antiga
+            docker compose -f "$COMPOSE_FILE" --env-file .env.runtime down || true
+
+            # Builda imagens localmente (vai copiar os JARs gerados para dentro das imagens)
+            docker compose -f "$COMPOSE_FILE" --env-file .env.runtime up -d --build
+          '''
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      sh 'rm -f .env.runtime || true'
+    }
+  }
+}

@@ -137,12 +137,6 @@ services:
       - ${PROMETHEUS_PORT}:${PROMETHEUS_PORT}
     environment:
       PROMETHEUS_PORT: ${PROMETHEUS_PORT}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${PROMETHEUS_PORT}/actuator/health"]
-      interval: 30s       
-      timeout: 10s        
-      retries: 3          
-      start_period: 40s
     volumes:
       - ./infra/observabilidade/prometheus.yml:/etc/prometheus/prometheus.yml # bindMount - Mapeia arquivo no host para arquivo dentro do container
       - prometheus_data:/prometheus
@@ -157,12 +151,6 @@ services:
       - ${LOKI_PORT}:${LOKI_PORT}
     environment:
       LOKI_PORT: ${LOKI_PORT}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${LOKI_PORT}/actuator/health"]
-      interval: 30s       
-      timeout: 10s        
-      retries: 3          
-      start_period: 40s
     volumes:
       - ./infra/observabilidade/loki/loki-config.yml:/etc/loki/local-config.yml
       - loki_data:/loki
@@ -186,6 +174,19 @@ services:
       - easy-video
     restart: unless-stopped
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: easy-video-jenkins
+    restart: unless-stopped
+    ports:
+      - ${JENKINS_HTTP_PORT}:${JENKINS_HTTP_PORT}
+      - ${JENKINS_AGENT_PORT}:${JENKINS_AGENT_PORT}
+    environment:
+      - JENKINS_PLUGINS=configuration-as-code:latest git:latest workflow-aggregator:latest docker-workflow:latest credentials-binding:latest
+    volumes:
+      - "jenkins_home:/var/jenkins_home"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
 volumes:
   rabbitmq_data:    # Declarando o volume para persistência
     driver: local   # Driver padrão do Docker para volumes
@@ -198,6 +199,8 @@ volumes:
   loki_data:
     driver: local
   promtail_data:
+    driver: local
+  jenkins_home:
     driver: local
   
 networks:
