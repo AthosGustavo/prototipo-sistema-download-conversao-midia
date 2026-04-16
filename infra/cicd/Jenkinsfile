@@ -41,7 +41,7 @@ pipeline {
               fi
               
 
-              cd "$service"
+              cd services/$service
               
               if ! mvn clean package -DskipTests; then
                   echo "ERRO: Falha ao gerar o JAR do serviço '${service}'"
