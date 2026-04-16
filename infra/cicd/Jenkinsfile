@@ -23,6 +23,7 @@ pipeline {
           which mvn || true
           java -version || true
         '''
+      }
     }
 
 
