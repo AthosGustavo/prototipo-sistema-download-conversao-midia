@@ -12,6 +12,20 @@ pipeline {
   }
 
   stages {
+
+    stage('Diagnosticos') {
+      steps {
+        sh '''
+          set -e
+          which docker || true
+          docker --version || true
+          docker compose version || true
+          which mvn || true
+          java -version || true
+        '''
+    }
+
+
     stage('Checkout') {
       steps {
         checkout scm
