@@ -7,7 +7,7 @@ pipeline {
   }
 
   environment {
-    ENV_FILE_CRED_ID = 'env-dev'
+    ENV_FILE_CRED_ID_CRED_ID = 'env-dev'
     COMPOSE_FILE = 'docker-compose.yml'
   }
 
@@ -20,8 +20,9 @@ pipeline {
 
     stage('Build JARs') {
       steps {
-        sh '''
-          set -e
+        //Força o uso do bash
+        sh '''#!/usr/bin/env bash
+          set -euo pipefail
 
           services=(
             "eureka-server"
@@ -57,7 +58,7 @@ pipeline {
 
     stage('Deploy (Docker Compose)') {
       steps {
-        withCredentials([file(credentialsId: "${ENV_FILE}", variable: 'ENVFILE')]) {
+        withCredentials([file(credentialsId: "${ENV_FILE_CRED_ID}", variable: 'ENVFILE')]) {
           sh '''
             set -e
 
