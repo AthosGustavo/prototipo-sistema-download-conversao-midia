@@ -13,6 +13,12 @@ pipeline {
 
   stages {
 
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
     stage('Diagnosticos') {
       steps {
         sh '''
@@ -23,13 +29,6 @@ pipeline {
           which mvn || true
           java -version || true
         '''
-      }
-    }
-
-
-    stage('Checkout') {
-      steps {
-        checkout scm
       }
     }
 
