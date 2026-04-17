@@ -7,7 +7,7 @@ pipeline {
   }
 
   environment {
-    ENV_FILE_CRED_ID_CRED_ID = 'env-dev'
+    ENV_FILE_CRED_ID = 'env-dev'
     COMPOSE_FILE = 'docker-compose.yml'
   }
 
