@@ -58,7 +58,7 @@ pipeline {
 
               cd "$service"
               
-              if ! mvn -e -U clean package -DskipTests; then
+              if ! mvn -e -U clean package -DskipTests | tee maven-build.log; then
                   echo "ERRO: Falha ao gerar o JAR do serviço '${service}'"
                   exit 1
               fi
@@ -69,6 +69,11 @@ pipeline {
 
         '''
       }
+      post {
+        always {
+          archiveArtifacts artifacts: 'maven-build.log', allowEmptyArchive: true
+        }
+  }
     }
 
     stage('Deploy (Docker Compose)') {
