@@ -19,17 +19,6 @@ pipeline {
       }
     }
 
-    stage('Diagnosticos') {
-      steps {
-        sh '''
-          set -e
-          which docker || true
-          docker --version || true
-          docker compose version || true
-          which mvn || true
-          java -version || true
-        '''
-      }
     }
 
     stage('Build JARs') {
@@ -38,6 +27,13 @@ pipeline {
         sh '''#!/usr/bin/env bash
           set -euo pipefail
 
+          cd libs
+          cd easyvideo-mensageria
+          mvn clean install
+          cd ../..
+
+          
+          
           services=(
             "eureka-server"
             "gateway"
