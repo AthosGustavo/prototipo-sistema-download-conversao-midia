@@ -19,8 +19,6 @@ pipeline {
       }
     }
 
-    }
-
     stage('Build JARs') {
       steps {
         //Força o uso do bash
