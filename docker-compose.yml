@@ -137,7 +137,7 @@ services:
     environment:
       PROMETHEUS_PORT: ${PROMETHEUS_PORT}
     volumes:
-      - ./infra/observabilidade/prometheus.yml:/etc/prometheus/prometheus.yml # bindMount - Mapeia arquivo no host para arquivo dentro do container
+      - #./infra/observabilidade/prometheus.yml:/etc/prometheus/prometheus.yml # bindMount - Mapeia arquivo no host para arquivo dentro do container
       - prometheus_data:/prometheus
     networks:
       - easy-video
@@ -151,7 +151,7 @@ services:
     environment:
       LOKI_PORT: ${LOKI_PORT}
     volumes:
-      - ./infra/observabilidade/loki/loki-config.yml:/etc/loki/local-config.yml
+      - #./infra/observabilidade/loki/loki-config.yml:/etc/loki/local-config.yml
       - loki_data:/loki
     command: -config.file=/etc/loki/local-config.yaml       # Sobrescreve o comando padrão do container para usar o arquivo de configuração personalizado
     networks:
