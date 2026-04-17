@@ -6,7 +6,7 @@ set -e
 echo "Gerando JARS dos serviços..."
 
 AMBIENTE=$1
-CAMINHO_ENV=envs/.env.$AMBIENTE
+CAMINHO_ENV=infra/envs/.env.$AMBIENTE
 
 cd services
 

@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   eureka-server:
@@ -174,18 +173,7 @@ services:
       - easy-video
     restart: unless-stopped
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: easy-video-jenkins
-    restart: unless-stopped
-    ports:
-      - ${JENKINS_HTTP_PORT}:${JENKINS_HTTP_PORT}
-      - ${JENKINS_AGENT_PORT}:${JENKINS_AGENT_PORT}
-    environment:
-      - JENKINS_PLUGINS=configuration-as-code:latest git:latest workflow-aggregator:latest docker-workflow:latest credentials-binding:latest
-    volumes:
-      - "jenkins_home:/var/jenkins_home"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+  
 
 volumes:
   rabbitmq_data:    # Declarando o volume para persistência
@@ -200,8 +188,7 @@ volumes:
     driver: local
   promtail_data:
     driver: local
-  jenkins_home:
-    driver: local
+
   
 networks:
   easy-video:

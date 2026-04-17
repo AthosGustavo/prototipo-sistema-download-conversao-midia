@@ -1,0 +1,41 @@
+services:
+  jenkins-controller:
+    image: jenkins/jenkins:lts
+    container_name: easy-video-jenkins-controller
+    restart: unless-stopped
+    ports:
+      - ${JENKINS_HTTP_PORT}:${JENKINS_HTTP_PORT}
+      - ${JENKINS_AGENT_PORT}:${JENKINS_AGENT_PORT}
+    environment:
+      - JENKINS_PLUGINS=configuration-as-code:latest git:latest workflow-aggregator:latest docker-workflow:latest credentials-binding:latest
+    volumes:
+      - "jenkins_home:/var/jenkins_home"
+    networks:
+      - easy-video-jenkins
+
+  jenkins-agent:
+    build:
+      context: ./infra/docker/jenkins-agent
+      dockerfile: Dockerfile
+      args:
+        DOCKER_GID: "${DOCKER_GID:-999}"
+    container_name: easy-video-jenkins-agent
+    restart: unless-stopped
+    depends_on:
+      - jenkins-controller
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      JENKINS_URL: "http://easy-video-jenkins-controller:${JENKINS_HTTP_PORT}/"
+      JENKINS_AGENT_NAME: ${JENKINS_AGENT_NAME}
+      JENKINS_SECRET: ${JENKINS_AGENT_SECRET}
+    networks:
+      - easy-video-jenkins
+
+volumes:
+  jenkins_home:
+    driver: local
+
+networks:
+  easy-video-jenkins:
+    driver: bridge
